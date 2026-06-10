@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuis Hari Lahir Pancasila 2026 - Politeknik Negeri Ujung Pandang</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f5;color:#222;min-height:100vh;display:flex}
+.sidebar{width:260px;min-width:260px;background:#1a1208;min-height:100vh;display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:100}
+.sidebar-logo{padding:1.4rem 1.25rem 1rem;border-bottom:1px solid #3a2d1a}
+.sidebar-logo-inner{display:flex;align-items:center;gap:12px}
+.logo-img{width:52px;height:52px;object-fit:contain;flex-shrink:0}
+.logo-text h2{font-size:13.5px;font-weight:700;color:#d4a017;line-height:1.3}
+.logo-text p{font-size:10px;color:#a08050;letter-spacing:.8px;margin-top:2px;text-transform:uppercase}
+.sidebar-menu{padding:.75rem 0;flex:1;overflow-y:auto}
+.menu-label{font-size:10px;color:#6b5a3a;letter-spacing:1.2px;font-weight:700;padding:0 1.25rem;margin-bottom:.4rem;margin-top:.6rem;text-transform:uppercase}
+.menu-item{display:flex;align-items:center;gap:12px;padding:.65rem 1.25rem;cursor:pointer;transition:all .15s;color:#c8b89a;font-size:14px;font-weight:500;border-left:3px solid transparent}
+.menu-item:hover{background:#2a1f0e;color:#f0d080}
+.menu-item.active{background:#2d1f0a;color:#d4a017;border-left-color:#d4a017}
+.menu-icon{font-size:17px;width:22px;text-align:center}
+.menu-badge{margin-left:auto;background:#c0392b;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px}
+.sidebar-footer{padding:1rem 1.25rem;border-top:1px solid #3a2d1a;font-size:11px;color:#6b5a3a;text-align:center;line-height:1.6}
+.main-content{margin-left:260px;flex:1;min-height:100vh;padding:1.5rem}
+.topbar{background:#fff;border-radius:12px;padding:.85rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;border:1px solid #e0e0e0;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.topbar-title{font-size:15px;font-weight:700;color:#1a1208}
+.topbar-sub{font-size:12px;color:#888;margin-top:1px}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#27ae60;display:inline-block;margin-right:4px}
+.page{display:none}.page.active{display:block}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:1.25rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.section-title{font-size:14px;font-weight:700;margin-bottom:.85rem;color:#1a1208}
+.field-label{font-size:12px;color:#666;margin-bottom:5px;font-weight:600}
+input[type=text],input[type=number],select{width:100%;padding:9px 12px;border:1.5px solid #ddd;border-radius:8px;font-size:14px;background:#fff;color:#222;outline:none;transition:border .15s}
+input:focus,select:focus{border-color:#d4a017}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+@media(max-width:700px){.grid2,.grid3{grid-template-columns:1fr}.main-content{margin-left:0;padding:1rem}.sidebar{transform:translateX(-100%)}}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:8px;border:1.5px solid #ddd;background:#fff;color:#222;font-size:14px;cursor:pointer;transition:all .15s;font-weight:600}
+.btn:hover{background:#f5f5f5}
+.btn-gold{background:#d4a017;border-color:#b8860b;color:#1a1208}
+.btn-gold:hover{background:#b8860b;color:#fff}
+.btn-red{background:#c0392b;border-color:#a93226;color:#fff}
+.btn-red:hover{background:#a93226}
+.btn-sm{padding:7px 14px;font-size:13px}
+.alert{padding:10px 14px;border-radius:8px;font-size:13px;margin-top:.75rem;display:none}
+.alert-err{background:#fadbd8;color:#922b21;border:1px solid #c0392b}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.5rem}
+.stat-card{background:linear-gradient(135deg,#1a1208,#2d1f0a);border-radius:10px;padding:1rem;text-align:center;color:#fff;border:1px solid #3a2d1a}
+.stat-card-val{font-size:28px;font-weight:700;color:#d4a017}
+.stat-card-lab{font-size:11px;color:#a08050;text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
+.quiz-layout{display:grid;grid-template-columns:1fr 230px;gap:1.25rem;align-items:start}
+@media(max-width:800px){.quiz-layout{grid-template-columns:1fr}}
+.soal-card{background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.soal-num{font-size:11px;color:#d4a017;font-weight:700;margin-bottom:.6rem;text-transform:uppercase;letter-spacing:.5px}
+.soal-text{font-size:15px;color:#1a1208;line-height:1.75;margin-bottom:1.25rem;font-weight:500}
+.option{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border:1.5px solid #e0e0e0;border-radius:9px;margin-bottom:9px;cursor:pointer;transition:all .15s;background:#fff}
+.option:hover{border-color:#d4a017;background:#fffbee}
+.option.selected{border-color:#c0392b;background:#fadbd8}
+.option-letter{width:26px;height:26px;min-width:26px;border-radius:50%;border:1.5px solid #ccc;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:1px;transition:all .15s}
+.option.selected .option-letter{background:#c0392b;border-color:#c0392b;color:#fff}
+.option-text{font-size:14px;line-height:1.55;padding-top:2px}
+.sidebar-quiz{background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:1rem;position:sticky;top:12px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.timer-box{text-align:center;padding:.85rem;background:#1a1208;border-radius:9px;margin-bottom:.85rem}
+.timer-val{font-size:28px;font-weight:700;color:#d4a017;letter-spacing:2px}
+.timer-label{font-size:10px;color:#a08050;margin-top:2px;font-weight:700;text-transform:uppercase}
+.navi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:.85rem}
+.navi-btn{width:100%;aspect-ratio:1;border-radius:6px;border:1px solid #ddd;background:#f5f5f5;font-size:11px;cursor:pointer;font-weight:700;color:#888;transition:all .15s}
+.navi-btn.answered{background:#c0392b;border-color:#a93226;color:#fff}
+.navi-btn.current{border:2.5px solid #d4a017;color:#d4a017;background:#fff}
+.navi-btn.ragu{background:#f39c12;border-color:#e67e22;color:#fff}
+.progress-bar{height:5px;background:#eee;border-radius:3px;margin-bottom:8px;overflow:hidden}
+.progress-fill{height:100%;background:#c0392b;transition:width .3s}
+.stat-row{display:flex;justify-content:space-between;font-size:12px;color:#777;margin-bottom:5px}
+.stat-val{font-weight:700;color:#222}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.7rem;margin-top:4px}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:11px;color:#888}
+.leg-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.nav-btns{display:flex;gap:8px;margin-top:1.1rem;flex-wrap:wrap}
+.ragu-btn{border:1px solid #f0c040;color:#b7770d;background:#fff}
+.ragu-btn:hover{background:#fef9e7}
+.score-circle{width:150px;height:150px;border-radius:50%;border:5px solid #c0392b;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem;background:#fff}
+.score-num{font-size:40px;font-weight:700;color:#c0392b}
+.score-label{font-size:12px;color:#888;margin-top:2px}
+.result-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:1.5rem}
+.metric{background:#f7f7f7;border-radius:9px;padding:.9rem;text-align:center;border:1px solid #eee}
+.metric-val{font-size:22px;font-weight:700;margin-bottom:3px}
+.metric-lab{font-size:11px;color:#888;font-weight:600;text-transform:uppercase}
+.info-row{display:flex;align-items:center;gap:8px;font-size:13px;padding:7px 0;border-bottom:1px solid #f0f0f0;color:#666}
+.info-row:last-child{border-bottom:none}
+.info-row strong{color:#222;margin-left:auto}
+.tab-bar{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap}
+.tab{padding:7px 16px;border-radius:8px;border:1px solid #ddd;font-size:13px;cursor:pointer;background:#f5f5f5;color:#666;font-weight:600;transition:all .15s}
+.tab.active{background:#c0392b;border-color:#a93226;color:#fff}
+.tab-content{display:none}.tab-content.active{display:block}
+.detail-table{width:100%;font-size:12.5px;border-collapse:collapse}
+.detail-table th{text-align:left;padding:7px 8px;background:#f5f5f5;font-weight:700;font-size:11.5px;color:#666;text-transform:uppercase}
+.detail-table td{padding:7px 8px;border-bottom:1px solid #f0f0f0;vertical-align:middle}
+.detail-table tr:hover td{background:#fafafa}
+.c-benar{color:#1e8449;font-weight:700}
+.c-salah{color:#c0392b;font-weight:700}
+textarea{width:100%;padding:10px;border:1px solid #d0d0d0;border-radius:8px;font-family:'Courier New',monospace;font-size:12px;resize:none;background:#f9f9f9;color:#222;outline:none}
+.rank-table{width:100%;border-collapse:collapse;font-size:13.5px}
+.rank-table th{text-align:left;padding:10px 12px;background:#1a1208;color:#d4a017;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px}
+.rank-table td{padding:10px 12px;border-bottom:1px solid #f0f0f0}
+.rank-table tr:hover td{background:#fffbee}
+.nilai-bar-wrap{display:flex;align-items:center;gap:8px}
+.nilai-bar{height:8px;background:#c0392b;border-radius:4px}
+.nilai-bar-bg{flex:1;height:8px;background:#eee;border-radius:4px;overflow:hidden}
+.cheat-table{width:100%;border-collapse:collapse;font-size:13px}
+.cheat-table th{text-align:left;padding:9px 12px;background:#1a1208;color:#d4a017;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.cheat-table td{padding:9px 12px;border-bottom:1px solid #f0f0f0;vertical-align:middle}
+.cheat-table tr:hover td{background:#fff5f5}
+.cheat-badge{display:inline-block;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:700}
+.cheat-low{background:#fff3cd;color:#856404}
+.cheat-high{background:#fadbd8;color:#922b21}
+.empty-state{text-align:center;padding:3rem 1rem;color:#aaa}
+.empty-state .es-icon{font-size:48px;margin-bottom:12px}
+.empty-state p{font-size:14px;line-height:1.7}
+.materi-card{background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:1.25rem;margin-bottom:.85rem;display:flex;align-items:flex-start;gap:14px;transition:all .15s}
+.materi-card:hover{border-color:#d4a017;box-shadow:0 2px 8px rgba(212,160,23,.15)}
+.materi-icon{font-size:28px;flex-shrink:0}
+.materi-title{font-size:15px;font-weight:700;color:#1a1208;margin-bottom:4px}
+.materi-desc{font-size:13px;color:#777;line-height:1.5}
+.materi-tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:5px;font-weight:600;margin-top:6px}
+.tag-mudah{background:#d5f5e3;color:#1e8449}
+.tag-sedang{background:#fef9e7;color:#b7770d}
+.timeline{position:relative;padding-left:2rem}
+.timeline::before{content:'';position:absolute;left:.5rem;top:0;bottom:0;width:2px;background:#d4a017;opacity:.3}
+.tl-item{position:relative;margin-bottom:1.5rem}
+.tl-dot{position:absolute;left:-1.6rem;top:4px;width:14px;height:14px;border-radius:50%;background:#d4a017;border:3px solid #fff;box-shadow:0 0 0 2px #d4a017}
+.tl-year{font-size:12px;color:#d4a017;font-weight:700;margin-bottom:3px}
+.tl-title{font-size:14px;font-weight:700;color:#1a1208;margin-bottom:4px}
+.tl-desc{font-size:13px;color:#666;line-height:1.55}
+.about-header{text-align:center;padding:2rem 1rem 1.5rem;background:linear-gradient(135deg,#1a1208,#2d1f0a);border-radius:12px;margin-bottom:1rem;color:#fff}
+.about-logo{width:90px;height:90px;object-fit:contain;margin:0 auto 1rem;display:block}
+.about-title{font-size:18px;font-weight:700;color:#d4a017;margin-bottom:4px}
+.about-sub{font-size:13px;color:#a08050}
+.cheat-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9998;display:none}
+.cheat-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#1a1208;color:#fff;padding:2rem;border-radius:14px;text-align:center;z-index:9999;display:none;min-width:300px;border:2px solid #c0392b;box-shadow:0 8px 40px rgba(0,0,0,.5)}
+.instruksi{list-style:none;padding:0}
+.instruksi li{font-size:13.5px;color:#555;padding:5px 0;line-height:1.6;display:flex;align-items:flex-start;gap:8px}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-inner">
+      <img src="https://upload.wikimedia.org/wikipedia/id/thumb/f/f0/Logo_Politeknik_Negeri_Ujung_Pandang.png/200px-Logo_Politeknik_Negeri_Ujung_Pandang.png" alt="PNUP" class="logo-img" onerror="this.style.display='none'">
+      <div class="logo-text">
+        <h2>Portal Edukasi<br>Pancasila</h2>
+        <p>PNUP · Belajar Bersama</p>
+      </div>
+    </div>
+  </div>
+  <div class="sidebar-menu">
+    <div class="menu-label">Menu Utama</div>
+    <div class="menu-item active" onclick="showPage('kuis')"><span class="menu-icon">📝</span> Kuis Pancasila</div>
+    <div class="menu-item" onclick="showPage('materi')"><span class="menu-icon">📚</span> Materi Pembelajaran</div>
+    <div class="menu-item" onclick="showPage('leaderboard')">
+      <span class="menu-icon">🏆</span> Papan Peringkat
+      <span class="menu-badge" id="lb-badge">0</span>
+    </div>
+    <div class="menu-item" onclick="showPage('sejarah')"><span class="menu-icon">📅</span> Sejarah Pancasila</div>
+    <div class="menu-label">Monitoring</div>
+    <div class="menu-item" onclick="showPage('cheatlog')">
+      <span class="menu-icon">🔍</span> Log Kecurangan
+      <span class="menu-badge" id="cheat-badge" style="display:none">0</span>
+    </div>
+    <div class="menu-item" onclick="showPage('tentang')"><span class="menu-icon">ℹ️</span> Tentang Kami</div>
+  </div>
+  <div class="sidebar-footer">Politeknik Negeri Ujung Pandang<br>Pendidikan Kewarganegaraan 2026</div>
+</div>
+
+<!-- MAIN -->
+<div class="main-content">
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">🇮🇩 Kuis Hari Lahir Pancasila 2026</div>
+      <div class="topbar-sub">Politeknik Negeri Ujung Pandang — Pendidikan Kewarganegaraan</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <span class="status-dot"></span>
+      <span style="font-size:12px;color:#666">Sistem Aktif</span>
+    </div>
+  </div>
+
+  <!-- MODAL ANTI CURANG -->
+  <div class="cheat-overlay" id="cheatOverlay"></div>
+  <div class="cheat-modal" id="cheatModal">
+    <div style="font-size:36px;margin-bottom:10px">🚨</div>
+    <div style="font-weight:700;font-size:16px;color:#d4a017;margin-bottom:6px">Peringatan Kecurangan!</div>
+    <div style="font-size:13px;color:#ccc;margin-bottom:4px" id="cheatMsg">Berpindah tab/jendela terdeteksi!</div>
+    <div style="font-size:12px;color:#e74c3c;margin:8px 0;font-weight:700" id="cheatCountMsg"></div>
+    <div style="font-size:11px;color:#a08050;margin-bottom:14px">Pelanggaran ini tercatat otomatis dalam Log Kecurangan</div>
+    <button onclick="closeCheatModal()" style="background:#d4a017;border:none;color:#1a1208;padding:8px 24px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">Kembali ke Kuis</button>
+  </div>
+
+  <!-- PAGE: KUIS -->
+  <div class="page active" id="page-kuis">
+    <div id="phaseIdentitas">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-card-val" id="stat-peserta">0</div><div class="stat-card-lab">Total Peserta</div></div>
+        <div class="stat-card"><div class="stat-card-val" id="stat-nilairata">-</div><div class="stat-card-lab">Rata-rata Nilai</div></div>
+        <div class="stat-card"><div class="stat-card-val" id="stat-tertinggi">-</div><div class="stat-card-lab">Nilai Tertinggi</div></div>
+      </div>
+      <div class="card">
+        <div class="section-title">📋 Data Identitas Peserta</div>
+        <div class="grid2" style="margin-bottom:1rem">
+          <div><div class="field-label">Nama Lengkap *</div><input type="text" id="f_nama" placeholder="Masukkan nama lengkap"></div>
+          <div><div class="field-label">NIM / NIS</div><input type="text" id="f_nis" placeholder="Nomor induk mahasiswa/siswa"></div>
+        </div>
+        <div class="grid3" style="margin-bottom:1rem">
+          <div>
+            <div class="field-label">Program Studi / Kelas *</div>
+            <select id="f_kelas">
+              <option value="">-- Pilih Prodi/Kelas --</option>
+              <option>D4 Administrasi Bisnis</option>
+              <option>D4 Akuntansi</option>
+              <option>D4 Teknik Informatika</option>
+              <option>D4 Teknik Elektro</option>
+              <option>D4 Teknik Mesin</option>
+              <option>D3 Administrasi Bisnis</option>
+              <option>D3 Akuntansi</option>
+              <option>D3 Teknik Informatika</option>
+              <option>D3 Teknik Mesin</option>
+              <option>Lainnya</option>
+            </select>
+          </div>
+          <div>
+            <div class="field-label">Jenis Kelamin *</div>
+            <select id="f_jk">
+              <option value="">-- Pilih --</option>
+              <option>Laki-laki</option>
+              <option>Perempuan</option>
+            </select>
+          </div>
+          <div>
+            <div class="field-label">Semester</div>
+            <select id="f_semester">
+              <option value="">-- Pilih --</option>
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8</option>
+            </select>
+          </div>
+        </div>
+        <div id="errIdentitas" class="alert alert-err"></div>
+      </div>
+      <div class="card">
+        <div class="section-title">📝 Petunjuk Pengerjaan</div>
+        <ul class="instruksi">
+          <li><span>📌</span><span>Kuis terdiri dari <strong>50 soal pilihan ganda</strong> Pendidikan Kewarganegaraan</span></li>
+          <li><span>⏱️</span><span>Waktu pengerjaan: <strong>60 menit</strong></span></li>
+          <li><span>✅</span><span>Setiap jawaban benar bernilai <strong>2 poin</strong> (nilai maks. 100)</span></li>
+          <li><span>🚩</span><span>Tandai soal yang ragu-ragu, kembali jawab sebelum submit</span></li>
+          <li><span>🚫</span><span>Dilarang membuka tab atau jendela lain selama kuis berlangsung</span></li>
+          <li><span>⚠️</span><span>Sistem mendeteksi kecurangan secara otomatis dan real-time</span></li>
+          <li><span>🏆</span><span>Nilai dan peringkat Anda tampil otomatis setelah submit</span></li>
+        </ul>
+        <div style="margin-top:1.25rem">
+          <button class="btn btn-gold" onclick="mulaiKuis()">▶ Mulai Kuis Sekarang</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="phaseKuis" style="display:none">
+      <div class="quiz-layout">
+        <div>
+          <div class="soal-card">
+            <div class="soal-num" id="soalNum">Soal 1 dari 50</div>
+            <div class="soal-text" id="soalText"></div>
+            <div id="opsiWrap"></div>
+            <div class="nav-btns">
+              <button class="btn btn-sm" onclick="prevSoal()">&#8592; Sebelumnya</button>
+              <button class="btn btn-sm ragu-btn" onclick="toggleRagu()">🚩 Ragu-ragu</button>
+              <button class="btn btn-sm btn-gold" onclick="nextSoal()">Selanjutnya &#8594;</button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="sidebar-quiz">
+            <div class="timer-box">
+              <div class="timer-val" id="timerVal">60:00</div>
+              <div class="timer-label">⏱ Sisa Waktu</div>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+            <div class="stat-row"><span>Dijawab</span><span class="stat-val" id="statJawab">0 / 50</span></div>
+            <div class="stat-row"><span>Ragu-ragu</span><span class="stat-val" id="statRagu">0</span></div>
+            <div class="legend">
+              <div class="leg-item"><div class="leg-dot" style="background:#c0392b"></div>Dijawab</div>
+              <div class="leg-item"><div class="leg-dot" style="background:#f39c12"></div>Ragu</div>
+              <div class="leg-item"><div class="leg-dot" style="background:#eee;border:1px solid #ddd"></div>Belum</div>
+            </div>
+            <div class="navi-grid" id="naviGrid"></div>
+            <button class="btn btn-red" style="width:100%;justify-content:center;margin-top:4px" onclick="konfirmasiSelesai()">✔ Selesai &amp; Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="phaseHasil" style="display:none;max-width:680px;margin:0 auto">
+      <div class="card" style="text-align:center;padding:2rem 1.5rem">
+        <div style="font-size:12px;color:#d4a017;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.75rem">Hasil Kuis Pancasila</div>
+        <div class="score-circle"><div class="score-num" id="scoreNum">0</div><div class="score-label">Nilai Akhir</div></div>
+        <div style="font-size:20px;font-weight:700;margin-bottom:5px" id="predikLabel"></div>
+        <div style="font-size:13px;color:#666" id="predikDesc"></div>
+      </div>
+      <div class="result-grid">
+        <div class="metric"><div class="metric-val c-benar" id="res_benar">0</div><div class="metric-lab">Benar</div></div>
+        <div class="metric"><div class="metric-val c-salah" id="res_salah">0</div><div class="metric-lab">Salah</div></div>
+        <div class="metric"><div class="metric-val" id="res_kosong" style="color:#aaa">0</div><div class="metric-lab">Kosong</div></div>
+      </div>
+      <div class="card" style="margin-bottom:1rem">
+        <div class="info-row">👤 Nama <strong id="res_nama"></strong></div>
+        <div class="info-row">🎓 Prodi/Kelas <strong id="res_kelas"></strong></div>
+        <div class="info-row">🏷️ NIM/NIS <strong id="res_nis"></strong></div>
+        <div class="info-row">⏱️ Waktu Pengerjaan <strong id="res_waktu"></strong></div>
+        <div class="info-row">📊 Peringkat Saat Ini <strong id="res_rank" style="color:#d4a017"></strong></div>
+        <div class="info-row">⚠️ Pelanggaran Terdeteksi <strong id="res_cheat" style="color:#c0392b"></strong></div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab active" onclick="switchTab(event,'pembahasan')">📋 Pembahasan</div>
+        <div class="tab" onclick="switchTab(event,'export')">📊 Export Data</div>
+      </div>
+      <div class="tab-content active" id="tab_pembahasan">
+        <div class="card" style="padding:.75rem;overflow-x:auto">
+          <table class="detail-table">
+            <thead><tr><th style="width:30px">#</th><th>Soal</th><th>Jawaban Anda</th><th>Kunci</th><th style="width:45px">Hasil</th></tr></thead>
+            <tbody id="detailTbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="tab-content" id="tab_export">
+        <div class="card">
+          <div class="section-title">📥 Export ke Google Sheets / Excel</div>
+          <p style="font-size:13px;color:#666;margin-bottom:1rem;line-height:1.6">Salin data CSV lalu tempel ke Google Sheets, atau gunakan Apps Script untuk impor otomatis.</p>
+          <label style="font-size:12px;color:#888;font-weight:700;display:block;margin-bottom:4px">DATA CSV</label>
+          <textarea id="exportData" rows="4" readonly></textarea>
+          <div style="display:flex;gap:8px;margin-top:.6rem;flex-wrap:wrap">
+            <button class="btn btn-sm" onclick="copyExport()">📋 Salin Data</button>
+            <button class="btn btn-sm btn-red" onclick="downloadCSV()">⬇ Download CSV</button>
+          </div>
+          <div style="margin-top:1.5rem">
+            <label style="font-size:12px;color:#888;font-weight:700;display:block;margin-bottom:4px">GOOGLE APPS SCRIPT (Extensions → Apps Script)</label>
+            <textarea id="appsScriptCode" rows="13" readonly></textarea>
+            <button class="btn btn-sm" onclick="copyScript()" style="margin-top:.5rem">📋 Salin Script</button>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:1rem;text-align:center">
+        <button class="btn btn-gold" onclick="showPage('leaderboard')">🏆 Lihat Papan Peringkat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: MATERI -->
+  <div class="page" id="page-materi">
+    <div style="margin-bottom:1.25rem">
+      <div style="font-size:20px;font-weight:700;color:#1a1208;margin-bottom:4px">📚 Materi Pembelajaran</div>
+      <div style="font-size:13px;color:#888">Pelajari materi berikut sebelum mengerjakan kuis</div>
+    </div>
+    <div class="materi-card"><span class="materi-icon">🇮🇩</span><div><div class="materi-title">Pancasila sebagai Dasar Negara</div><div class="materi-desc">Pengertian, fungsi, dan kedudukan Pancasila sebagai dasar negara dan pandangan hidup bangsa Indonesia.</div><span class="materi-tag tag-mudah">Mudah</span></div></div>
+    <div class="materi-card"><span class="materi-icon">📜</span><div><div class="materi-title">Sila-sila Pancasila & Lambangnya</div><div class="materi-desc">Bunyi sila 1–5, lambang masing-masing sila, dan makna nilai yang terkandung di dalamnya.</div><span class="materi-tag tag-mudah">Mudah</span></div></div>
+    <div class="materi-card"><span class="materi-icon">⚖️</span><div><div class="materi-title">UUD 1945 & Konstitusi</div><div class="materi-desc">Pembukaan UUD 1945, batang tubuh, amandemen, dan fungsi konstitusi sebagai hukum dasar negara.</div><span class="materi-tag tag-sedang">Sedang</span></div></div>
+    <div class="materi-card"><span class="materi-icon">🏛️</span><div><div class="materi-title">Lembaga-lembaga Negara</div><div class="materi-desc">MPR, DPR, DPD, Presiden, MA, MK, KY — tugas, fungsi, dan hubungan antar lembaga negara.</div><span class="materi-tag tag-sedang">Sedang</span></div></div>
+    <div class="materi-card"><span class="materi-icon">👥</span><div><div class="materi-title">Hak & Kewajiban Warga Negara</div><div class="materi-desc">Hak asasi manusia dan hak-kewajiban warga negara berdasarkan UUD 1945 pasal 27–34.</div><span class="materi-tag tag-mudah">Mudah</span></div></div>
+    <div class="materi-card"><span class="materi-icon">🌏</span><div><div class="materi-title">Wawasan Nusantara</div><div class="materi-desc">Pengertian, tujuan, fungsi, dan implementasi Wawasan Nusantara dalam kehidupan berbangsa.</div><span class="materi-tag tag-sedang">Sedang</span></div></div>
+    <div class="materi-card"><span class="materi-icon">🗳️</span><div><div class="materi-title">Demokrasi Pancasila</div><div class="materi-desc">Prinsip musyawarah mufakat, pemilu, dan implementasi demokrasi dalam sistem pemerintahan Indonesia.</div><span class="materi-tag tag-mudah">Mudah</span></div></div>
+    <div class="materi-card"><span class="materi-icon">🛡️</span><div><div class="materi-title">Bela Negara & Ketahanan Nasional</div><div class="materi-desc">Kewajiban bela negara, TNI, Polri, dan bentuk partisipasi warga dalam menjaga kedaulatan.</div><span class="materi-tag tag-sedang">Sedang</span></div></div>
+  </div>
+
+  <!-- PAGE: LEADERBOARD -->
+  <div class="page" id="page-leaderboard">
+    <div style="margin-bottom:1.25rem;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:.5rem">
+      <div>
+        <div style="font-size:20px;font-weight:700;color:#1a1208;margin-bottom:4px">🏆 Papan Peringkat</div>
+        <div style="font-size:13px;color:#888">Peringkat peserta berdasarkan nilai tertinggi</div>
+      </div>
+      <button class="btn btn-sm" onclick="if(confirm('Hapus semua data peringkat?')){localStorage.removeItem(\'lb_pancasila\');location.reload()}" style="border-color:#c0392b;color:#c0392b">🗑 Reset</button>
+    </div>
+    <div id="lb-empty" class="empty-state"><div class="es-icon">🏆</div><p>Belum ada peserta yang menyelesaikan kuis.<br>Jadilah yang pertama!</p></div>
+    <div id="lb-table-wrap" style="display:none">
+      <div class="card" style="padding:.75rem;overflow-x:auto">
+        <table class="rank-table">
+          <thead><tr><th style="width:50px">Rank</th><th>Nama</th><th>Prodi/Kelas</th><th>Nilai</th><th>Benar</th><th>Pelanggaran</th><th>Durasi</th></tr></thead>
+          <tbody id="lbTbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: SEJARAH -->
+  <div class="page" id="page-sejarah">
+    <div style="margin-bottom:1.5rem">
+      <div style="font-size:20px;font-weight:700;color:#1a1208;margin-bottom:4px">📅 Sejarah Lahirnya Pancasila</div>
+      <div style="font-size:13px;color:#888">Perjalanan panjang lahirnya dasar negara Indonesia</div>
+    </div>
+    <div class="card">
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">29 Mei 1945</div><div class="tl-title">Muhammad Yamin — Usulan Pertama</div><div class="tl-desc">Muhammad Yamin menyampaikan lima asas dasar negara dalam sidang BPUPKI: Peri Kebangsaan, Peri Kemanusiaan, Peri Ketuhanan, Peri Kerakyatan, dan Kesejahteraan Rakyat.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">31 Mei 1945</div><div class="tl-title">Soepomo — Konsep Negara Integralistik</div><div class="tl-desc">Prof. Soepomo memaparkan gagasan negara yang menyatu dengan seluruh rakyatnya, menekankan persatuan dan kebersamaan.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1 Juni 1945</div><div class="tl-title">Soekarno — Hari Lahir Pancasila ⭐</div><div class="tl-desc">Ir. Soekarno menyampaikan pidato bersejarah dan mencetuskan nama "Pancasila" dengan lima dasar: Kebangsaan, Internasionalisme, Mufakat, Kesejahteraan Sosial, dan Ketuhanan.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">22 Juni 1945</div><div class="tl-title">Piagam Jakarta</div><div class="tl-desc">Panitia Sembilan merumuskan Piagam Jakarta yang memuat rancangan pembukaan UUD dengan sila pertama berbunyi "Ketuhanan dengan kewajiban menjalankan syariat Islam bagi pemeluk-pemeluknya."</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">18 Agustus 1945</div><div class="tl-title">Pancasila Resmi Disahkan</div><div class="tl-desc">PPKI mengesahkan UUD 1945 beserta Pembukaan yang memuat Pancasila. Sila pertama diubah menjadi "Ketuhanan Yang Maha Esa" demi menjaga persatuan bangsa.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1 Juni (Hari Nasional)</div><div class="tl-title">Hari Lahir Pancasila Ditetapkan</div><div class="tl-desc">Berdasarkan Keppres No. 24 Tahun 2016, tanggal 1 Juni ditetapkan sebagai Hari Lahir Pancasila sekaligus hari libur nasional.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: CHEAT LOG -->
+  <div class="page" id="page-cheatlog">
+    <div style="margin-bottom:1.25rem;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:.5rem">
+      <div>
+        <div style="font-size:20px;font-weight:700;color:#1a1208;margin-bottom:4px">🔍 Log Kecurangan</div>
+        <div style="font-size:13px;color:#888">Rekap peserta yang terdeteksi melakukan pelanggaran selama kuis</div>
+      </div>
+      <button class="btn btn-sm" onclick="clearCheatLog()" style="border-color:#c0392b;color:#c0392b">🗑 Hapus Log</button>
+    </div>
+    <div id="cheat-empty" class="empty-state"><div class="es-icon">✅</div><p>Tidak ada kecurangan terdeteksi.<br>Semua peserta berlaku jujur!</p></div>
+    <div id="cheat-table-wrap" style="display:none">
+      <div class="card" style="padding:.75rem;overflow-x:auto">
+        <table class="cheat-table">
+          <thead><tr><th>#</th><th>Nama Peserta</th><th>Prodi/Kelas</th><th>Jumlah Pelanggaran</th><th>Nilai</th><th>Waktu</th></tr></thead>
+          <tbody id="cheatTbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: TENTANG -->
+  <div class="page" id="page-tentang">
+    <div class="about-header">
+      <img src="https://upload.wikimedia.org/wikipedia/id/thumb/f/f0/Logo_Politeknik_Negeri_Ujung_Pandang.png/200px-Logo_Politeknik_Negeri_Ujung_Pandang.png" alt="Logo PNUP" class="about-logo" onerror="this.outerHTML='<div style=\'font-size:64px;margin-bottom:12px\'>🎓</div>'">
+      <div class="about-title">Politeknik Negeri Ujung Pandang</div>
+      <div class="about-sub">Makassar, Sulawesi Selatan · Indonesia</div>
+    </div>
+    <div class="card">
+      <div class="section-title">Tentang Portal Kuis Pancasila</div>
+      <p style="font-size:13.5px;color:#555;line-height:1.75;margin-bottom:1rem">Portal Edukasi Pancasila ini dikembangkan sebagai media pembelajaran interaktif dalam rangka memperingati Hari Lahir Pancasila 2026. Platform ini dirancang untuk meningkatkan pemahaman mahasiswa terhadap nilai-nilai Pancasila dan Pendidikan Kewarganegaraan.</p>
+      <div class="info-row">🏛️ Institusi <strong>Politeknik Negeri Ujung Pandang</strong></div>
+      <div class="info-row">📍 Lokasi <strong>Makassar, Sulawesi Selatan</strong></div>
+      <div class="info-row">📚 Mata Kuliah <strong>Pendidikan Kewarganegaraan</strong></div>
+      <div class="info-row">📅 Tahun <strong>2026</strong></div>
+      <div class="info-row">🌐 Platform <strong>Web-based CBT (Computer Based Test)</strong></div>
+      <div class="info-row">📝 Jumlah Soal <strong>50 Soal Pilihan Ganda</strong></div>
+      <div class="info-row">⏱️ Durasi <strong>60 Menit</strong></div>
+    </div>
+    <div class="card">
+      <div class="section-title">Fitur Utama</div>
+      <ul class="instruksi">
+        <li><span>✅</span><span>CBT profesional dengan sidebar navigasi soal & timer realtime</span></li>
+        <li><span>🚩</span><span>Fitur tandai soal ragu-ragu</span></li>
+        <li><span>🔍</span><span>Sistem anti-curang otomatis (deteksi pindah tab) + Log Kecurangan</span></li>
+        <li><span>🏆</span><span>Papan peringkat peserta realtime dengan ranking otomatis</span></li>
+        <li><span>📊</span><span>Export hasil ke CSV & Google Sheets via Apps Script</span></li>
+        <li><span>📋</span><span>Pembahasan lengkap 50 soal setelah selesai kuis</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+const SOAL=[
+{q:"Pancasila sebagai dasar negara Indonesia disahkan pada tanggal...",o:["17 Agustus 1945","1 Juni 1945","18 Agustus 1945","22 Juni 1945"],a:2},
+{q:"Tokoh yang menyampaikan gagasan awal Pancasila pada 1 Juni 1945 adalah...",o:["Mohammad Hatta","Soepomo","Mohammad Yamin","Soekarno"],a:3},
+{q:"Hari Lahir Pancasila diperingati setiap tanggal...",o:["20 Mei","17 Agustus","1 Juni","28 Oktober"],a:2},
+{q:"Sila pertama Pancasila berbunyi...",o:["Persatuan Indonesia","Ketuhanan Yang Maha Esa","Kemanusiaan yang adil dan beradab","Kerakyatan yang dipimpin oleh hikmat"],a:1},
+{q:"Lambang sila ke-2 Pancasila adalah...",o:["Bintang","Rantai","Pohon beringin","Kepala banteng"],a:1},
+{q:"Lambang negara Republik Indonesia adalah...",o:["Bendera Merah Putih","Burung Garuda","Peta Indonesia","Padi dan Kapas"],a:1},
+{q:"Semboyan bangsa Indonesia yang tertulis pada lambang Garuda Pancasila adalah...",o:["Bhinneka Tunggal Ika","Merdeka atau Mati","Pancasila Sakti","Satu Nusa Satu Bangsa"],a:0},
+{q:"UUD 1945 merupakan hukum dasar tertulis yang berfungsi sebagai...",o:["Sumber dari segala sumber hukum","Peraturan pemerintah","Keputusan presiden","Undang-undang biasa"],a:0},
+{q:"BPUPKI singkatan dari...",o:["Badan Penyelidik Usaha-usaha Persiapan Kemerdekaan Indonesia","Badan Pemuda Utama Penghimpun Kemerdekaan Indonesia","Badan Pemersatu Upaya Penguat Kebangsaan Indonesia","Badan Pelopor Utama Penggerak Kemerdekaan Indonesia"],a:0},
+{q:"PPKI dibentuk pada tanggal...",o:["1 Maret 1945","7 Agustus 1945","17 Agustus 1945","18 Agustus 1945"],a:1},
+{q:"Nilai-nilai Pancasila bersumber dari...",o:["Budaya asing","Kepribadian dan budaya bangsa Indonesia","Konstitusi negara lain","Ajaran partai politik"],a:1},
+{q:"Sila ke-3 Pancasila dilambangkan dengan...",o:["Rantai","Pohon beringin","Kepala banteng","Padi dan kapas"],a:1},
+{q:"Negara Indonesia adalah negara kesatuan yang berbentuk...",o:["Kerajaan","Federasi","Republik","Konfederasi"],a:2},
+{q:"Pembukaan UUD 1945 alinea ke-4 memuat...",o:["Pernyataan kemerdekaan","Tujuan negara dan dasar negara","Alasan kemerdekaan","Sejarah perjuangan"],a:1},
+{q:"Hak asasi manusia yang paling mendasar adalah hak...",o:["Mendapat pendidikan","Hidup","Memilih","Bekerja"],a:1},
+{q:"Tujuan negara Indonesia tercantum dalam...",o:["Batang tubuh UUD 1945","Pembukaan UUD 1945 alinea ke-4","Penjelasan UUD 1945","Sila-sila Pancasila"],a:1},
+{q:"Prinsip demokrasi Pancasila mengutamakan...",o:["Suara terbanyak mutlak","Musyawarah mufakat","Keputusan elite","Keputusan pemimpin tunggal"],a:1},
+{q:"Pemilu di Indonesia dilaksanakan setiap...",o:["3 tahun","4 tahun","5 tahun","6 tahun"],a:2},
+{q:"Pasal 28B UUD 1945 mengatur tentang...",o:["Kebebasan berserikat","Hak untuk hidup","Hak membentuk keluarga","Hak atas pekerjaan"],a:2},
+{q:"Lembaga tertinggi pemegang kekuasaan kehakiman di Indonesia adalah...",o:["Mahkamah Agung","Mahkamah Konstitusi","Komisi Yudisial","DPR"],a:0},
+{q:"Wawasan Nusantara adalah cara pandang bangsa Indonesia tentang...",o:["Wilayah dan rakyatnya","Diri dan lingkungannya","Ekonomi nasional","Pertahanan militer"],a:1},
+{q:"Sistem pemerintahan Indonesia adalah...",o:["Presidensial","Parlementer","Monarki konstitusional","Semipresidensial"],a:0},
+{q:"Pancasila sebagai pandangan hidup bangsa artinya...",o:["Pancasila adalah aturan hukum","Pancasila menjadi pedoman perilaku sehari-hari","Pancasila hanya berlaku di pemerintahan","Pancasila berasal dari negara lain"],a:1},
+{q:"Hak dan kewajiban warga negara diatur dalam UUD 1945 pada pasal...",o:["25-27","27-34","30-34","20-25"],a:1},
+{q:"Bela negara merupakan kewajiban setiap...",o:["Anggota TNI","Pegawai negeri","Warga negara Indonesia","Laki-laki usia 17-45 tahun"],a:2},
+{q:"Nilai gotong royong mencerminkan sila ke...",o:["1","3","4","5"],a:1},
+{q:"Perbedaan antara hak dan kewajiban adalah...",o:["Hak harus dipenuhi, kewajiban boleh ditinggal","Kewajiban harus dipenuhi, hak bisa dituntut","Hak dan kewajiban sama saja","Hak lebih penting dari kewajiban"],a:1},
+{q:"Otonomi daerah di Indonesia diatur dalam UU Nomor...",o:["22 Tahun 1999","23 Tahun 2014","32 Tahun 2004","25 Tahun 2000"],a:1},
+{q:"Presiden Indonesia pertama adalah...",o:["Mohammad Hatta","Soekarno","Soeharto","B.J. Habibie"],a:1},
+{q:"Pancasila disebut sebagai ideologi terbuka karena...",o:["Dapat diganti sewaktu-waktu","Nilai-nilainya dapat dikembangkan sesuai zaman","Berasal dari luar negeri","Bisa diubah oleh siapa saja"],a:1},
+{q:"Kebebasan mengemukakan pendapat diatur dalam pasal...",o:["28A UUD 1945","28E UUD 1945","28F UUD 1945","28H UUD 1945"],a:1},
+{q:"Makna persatuan Indonesia dalam sila ke-3 adalah...",o:["Semua rakyat harus sama","Kesatuan wilayah, bangsa, dan negara","Mengutamakan kepentingan suku tertentu","Hanya mengakui satu agama"],a:1},
+{q:"DPR, DPD, dan MPR adalah lembaga...",o:["Yudikatif","Legislatif","Eksekutif","Federatif"],a:1},
+{q:"Proklamasi kemerdekaan Indonesia dibacakan pada tanggal...",o:["17 Agustus 1945","18 Agustus 1945","1 Juni 1945","20 Mei 1945"],a:0},
+{q:"Fungsi utama Mahkamah Konstitusi adalah...",o:["Mengadili sengketa pidana","Menguji undang-undang terhadap UUD","Memilih presiden","Membuat undang-undang"],a:1},
+{q:"Negara hukum Indonesia berdasarkan pada...",o:["Kekuasaan presiden","Hukum adat","Pancasila dan UUD 1945","Keputusan MPR"],a:2},
+{q:"Sumpah Pemuda diikrarkan pada tanggal...",o:["17 Agustus 1928","28 Oktober 1928","20 Mei 1908","1 Juni 1945"],a:1},
+{q:"Asas kewarganegaraan Indonesia yang digunakan adalah...",o:["Ius soli saja","Ius sanguinis saja","Ius soli dan ius sanguinis","Naturalisasi"],a:2},
+{q:"Pancasila digali dari nilai-nilai yang hidup dalam...",o:["Budaya Barat","Masyarakat dan bangsa Indonesia","Ajaran komunisme","Agama tertentu saja"],a:1},
+{q:"Lembaga yang bertugas mengawasi keuangan negara adalah...",o:["KPK","BPK","BPKP","OJK"],a:1},
+{q:"Negara memberikan jaminan kepada setiap warga negara untuk mendapat...",o:["Pekerjaan tetap","Pendidikan yang layak","Rumah mewah","Penghasilan sama"],a:1},
+{q:"Tugas TNI adalah...",o:["Menjaga keamanan dalam negeri saja","Mempertahankan kedaulatan negara","Membuat undang-undang","Menyelenggarakan pemilu"],a:1},
+{q:"Hak pilih warga negara dalam pemilu disebut...",o:["Hak aktif","Hak pasif","Hak aktif dan pasif","Hak eksklusif"],a:2},
+{q:"Sikap yang mencerminkan sila ke-5 Pancasila adalah...",o:["Mengutamakan kepentingan pribadi","Menjaga keseimbangan hak dan kewajiban","Membeda-bedakan perlakuan","Tidak peduli lingkungan"],a:1},
+{q:"Pembagian kekuasaan di Indonesia menganut prinsip...",o:["Trias politica","Monarki absolut","Oligarki","Demokrasi langsung"],a:0},
+{q:"Konstitusi pertama Indonesia yang disahkan adalah...",o:["UUD RIS","UUDS 1950","UUD 1945","Piagam Jakarta"],a:2},
+{q:"Bhinneka Tunggal Ika berasal dari kitab...",o:["Sutasoma","Negarakertagama","Pararaton","Mahabharata"],a:0},
+{q:"Perubahan UUD 1945 dilakukan sebanyak...",o:["2 kali","3 kali","4 kali","5 kali"],a:2},
+{q:"Kewajiban membayar pajak diatur dalam pasal...",o:["23A UUD 1945","28 UUD 1945","30 UUD 1945","27 UUD 1945"],a:0},
+{q:"Pemisahan kekuasaan antara eksekutif, legislatif, yudikatif bertujuan untuk...",o:["Memperlambat pemerintahan","Mencegah penyalahgunaan kekuasaan","Mempersulit rakyat","Memperkuat presiden"],a:1},
+{q:"Nilai keadilan sosial dalam Pancasila berarti...",o:["Semua orang harus kaya","Kesejahteraan merata bagi seluruh rakyat","Hanya yang bekerja mendapat hak","Negara tidak perlu membantu rakyat miskin"],a:1}
+];
+
+var peserta={},jawaban=new Array(50).fill(null),ragu=new Set();
+var current=0,timerInt=null,sisaDetik=3600,cheatCount=0;
+var mulaiTime=null,selesaiTime=null;
+
+function getLB(){try{return JSON.parse(localStorage.getItem('lb_pancasila')||'[]')}catch(e){return[]}}
+function getCL(){try{return JSON.parse(localStorage.getItem('cl_pancasila')||'[]')}catch(e){return[]}}
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
+  document.querySelectorAll('.menu-item').forEach(function(m){m.classList.remove('active')});
+  document.getElementById('page-'+id).classList.add('active');
+  var map={kuis:0,materi:1,leaderboard:2,sejarah:3,cheatlog:4,tentang:5};
+  var items=document.querySelectorAll('.menu-item');
+  if(map[id]!==undefined) items[map[id]].classList.add('active');
+  if(id==='leaderboard') renderLeaderboard();
+  if(id==='cheatlog') renderCheatLog();
+  window.scrollTo(0,0);
+}
+
+function updateDashStats(){
+  var lb=getLB();
+  document.getElementById('stat-peserta').textContent=lb.length;
+  document.getElementById('lb-badge').textContent=lb.length;
+  if(lb.length>0){
+    var avg=Math.round(lb.reduce(function(s,x){return s+x.nilai},0)/lb.length);
+    var mx=Math.max.apply(null,lb.map(function(x){return x.nilai}));
+    document.getElementById('stat-nilairata').textContent=avg;
+    document.getElementById('stat-tertinggi').textContent=mx;
+  }
+  var cl=getCL();
+  var cb=document.getElementById('cheat-badge');
+  if(cl.length>0){cb.style.display='inline';cb.textContent=cl.length;}else{cb.style.display='none';}
+}
+
+function mulaiKuis(){
+  var nm=document.getElementById('f_nama').value.trim();
+  var kl=document.getElementById('f_kelas').value;
+  var jk=document.getElementById('f_jk').value;
+  var err=document.getElementById('errIdentitas');
+  if(!nm){err.textContent='⚠ Nama lengkap wajib diisi!';err.style.display='block';return;}
+  if(!kl){err.textContent='⚠ Program studi / kelas wajib dipilih!';err.style.display='block';return;}
+  if(!jk){err.textContent='⚠ Jenis kelamin wajib dipilih!';err.style.display='block';return;}
+  err.style.display='none';
+  peserta={nama:nm,nis:document.getElementById('f_nis').value||'-',kelas:kl,jk:jk,semester:document.getElementById('f_semester').value||'-'};
+  mulaiTime=new Date();
+  jawaban=new Array(50).fill(null); ragu=new Set(); cheatCount=0; sisaDetik=3600;
+  document.getElementById('phaseIdentitas').style.display='none';
+  document.getElementById('phaseKuis').style.display='block';
+  buatNavi(); renderSoal(0); startTimer(); setupAntiCheat();
+  window.scrollTo(0,0);
+}
+
+function buatNavi(){
+  var g=document.getElementById('naviGrid'); g.innerHTML='';
+  for(var i=0;i<50;i++){
+    var b=document.createElement('button');
+    b.id='nb'+i; b.textContent=i+1; b.className='navi-btn';
+    b.onclick=(function(idx){return function(){renderSoal(idx)}})(i);
+    g.appendChild(b);
+  }
+}
+
+function renderSoal(i){
+  current=i;
+  var s=SOAL[i];
+  document.getElementById('soalNum').textContent='Soal '+(i+1)+' dari 50'+(ragu.has(i)?' 🚩':'');
+  document.getElementById('soalText').textContent=s.q;
+  var w=document.getElementById('opsiWrap'); w.innerHTML='';
+  var ltr=['A','B','C','D'];
+  s.o.forEach(function(o,j){
+    var d=document.createElement('div');
+    d.className='option'+(jawaban[i]===j?' selected':'');
+    d.innerHTML='<div class="option-letter">'+ltr[j]+'</div><div class="option-text">'+o+'</div>';
+    d.onclick=(function(si,oi){return function(){pilihJawaban(si,oi)}})(i,j);
+    w.appendChild(d);
+  });
+  updateNavi(); updateStats();
+}
+
+function pilihJawaban(si,oi){jawaban[si]=oi;renderSoal(si);}
+function toggleRagu(){if(ragu.has(current))ragu.delete(current);else ragu.add(current);renderSoal(current);}
+function nextSoal(){if(current<49)renderSoal(current+1);}
+function prevSoal(){if(current>0)renderSoal(current-1);}
+
+function updateNavi(){
+  for(var i=0;i<50;i++){
+    var b=document.getElementById('nb'+i); if(!b)continue;
+    b.className='navi-btn';
+    if(i===current)b.classList.add('current');
+    else if(ragu.has(i))b.classList.add('ragu');
+    else if(jawaban[i]!==null)b.classList.add('answered');
+  }
+}
+
+function updateStats(){
+  var dj=jawaban.filter(function(x){return x!==null}).length;
+  document.getElementById('statJawab').textContent=dj+' / 50';
+  document.getElementById('statRagu').textContent=ragu.size;
+  document.getElementById('progressFill').style.width=(dj/50*100)+'%';
+}
+
+function startTimer(){
+  timerInt=setInterval(function(){
+    sisaDetik--;
+    if(sisaDetik<=0){clearInterval(timerInt);alert('Waktu habis! Kuis otomatis disubmit.');selesaiKuis();return;}
+    var m=String(Math.floor(sisaDetik/60)).padStart(2,'0');
+    var s=String(sisaDetik%60).padStart(2,'0');
+    var tv=document.getElementById('timerVal');
+    tv.textContent=m+':'+s;
+    tv.style.color=sisaDetik<=300?'#e74c3c':'#d4a017';
+  },1000);
+}
+
+function konfirmasiSelesai(){
+  var k=jawaban.filter(function(x){return x===null}).length;
+  var msg=k>0?'Masih ada '+k+' soal belum dijawab.\nYakin ingin submit?':'Semua soal sudah dijawab.\nYakin ingin submit?';
+  if(confirm(msg))selesaiKuis();
+}
+
+function selesaiKuis(){
+  clearInterval(timerInt);
+  selesaiTime=new Date();
+  document.removeEventListener('visibilitychange',visibilityHandler);
+  var benar=0,salah=0,kosong=0;
+  SOAL.forEach(function(s,i){if(jawaban[i]===null)kosong++;else if(jawaban[i]===s.a)benar++;else salah++;});
+  var nilai=benar*2;
+  var dur=Math.floor((selesaiTime-mulaiTime)/1000);
+  var entry={nama:peserta.nama,kelas:peserta.kelas,nis:peserta.nis,jk:peserta.jk,semester:peserta.semester,nilai:nilai,benar:benar,salah:salah,kosong:kosong,cheat:cheatCount,dur:dur,waktu:new Date().toLocaleString('id-ID')};
+  var lb=getLB(); lb.push(entry);
+  lb.sort(function(a,b){return b.nilai-a.nilai||(a.dur-b.dur)});
+  localStorage.setItem('lb_pancasila',JSON.stringify(lb));
+  if(cheatCount>0){var cl=getCL();cl.push(entry);localStorage.setItem('cl_pancasila',JSON.stringify(cl));}
+  updateDashStats();
+  document.getElementById('phaseKuis').style.display='none';
+  document.getElementById('phaseHasil').style.display='block';
+  tampilkanHasil(benar,salah,kosong,nilai,dur);
+  window.scrollTo(0,0);
+}
+
+function tampilkanHasil(benar,salah,kosong,nilai,dur){
+  document.getElementById('scoreNum').textContent=nilai;
+  document.getElementById('res_benar').textContent=benar;
+  document.getElementById('res_salah').textContent=salah;
+  document.getElementById('res_kosong').textContent=kosong;
+  document.getElementById('res_nama').textContent=peserta.nama;
+  document.getElementById('res_kelas').textContent=peserta.kelas;
+  document.getElementById('res_nis').textContent=peserta.nis;
+  document.getElementById('res_waktu').textContent=Math.floor(dur/60)+' menit '+dur%60+' detik';
+  var lb=getLB();
+  var rank=lb.findIndex(function(x){return x.nama===peserta.nama&&x.nilai===nilai})+1;
+  document.getElementById('res_rank').textContent='Peringkat #'+rank+' dari '+lb.length+' peserta';
+  document.getElementById('res_cheat').textContent=cheatCount>0?cheatCount+'x (tercatat dalam log)':'Tidak ada ✓';
+  var predikat,deskripsi;
+  if(nilai>=90){predikat='Sangat Baik ⭐';deskripsi='Luar biasa! Kamu menguasai materi dengan sangat baik.';}
+  else if(nilai>=75){predikat='Baik 👍';deskripsi='Bagus! Terus tingkatkan pemahamanmu.';}
+  else if(nilai>=60){predikat='Cukup 📚';deskripsi='Cukup baik. Pelajari kembali materi yang belum dikuasai.';}
+  else{predikat='Perlu Belajar Lagi 💪';deskripsi='Jangan menyerah! Pelajari kembali materi PKn dengan giat.';}
+  document.getElementById('predikLabel').textContent=predikat;
+  document.getElementById('predikDesc').textContent=deskripsi;
+  var tbody=document.getElementById('detailTbody'); tbody.innerHTML='';
+  var ltr=['A','B','C','D'];
+  SOAL.forEach(function(s,i){
+    var ok=(jawaban[i]===s.a);
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+(i+1)+'</td><td style="font-size:12px">'+s.q+'</td>'
+      +'<td style="font-size:12px;color:'+(ok?'#1e8449':jawaban[i]===null?'#aaa':'#c0392b')+'">'+(jawaban[i]!==null?ltr[jawaban[i]]+'. '+s.o[jawaban[i]]:'—')+'</td>'
+      +'<td class="c-benar" style="font-size:12px">'+ltr[s.a]+'. '+s.o[s.a]+'</td>'
+      +'<td style="text-align:center">'+(ok?'<span class="c-benar">✓</span>':'<span class="c-salah">✗</span>')+'</td>';
+    tbody.appendChild(tr);
+  });
+  buatExportData(benar,salah,kosong,nilai,dur);
+  buatAppsScript();
+}
+
+function renderLeaderboard(){
+  var lb=getLB();
+  if(lb.length===0){document.getElementById('lb-empty').style.display='block';document.getElementById('lb-table-wrap').style.display='none';return;}
+  document.getElementById('lb-empty').style.display='none';
+  document.getElementById('lb-table-wrap').style.display='block';
+  var tbody=document.getElementById('lbTbody'); tbody.innerHTML='';
+  var medals=['🥇','🥈','🥉'];
+  lb.forEach(function(e,i){
+    var tr=document.createElement('tr');
+    var medal=i<3?'<span style="font-size:20px">'+medals[i]+'</span>':'<b style="color:#999">#'+(i+1)+'</b>';
+    var bw=Math.round(e.nilai);
+    tr.innerHTML='<td>'+medal+'</td>'
+      +'<td><strong>'+e.nama+'</strong><br><span style="font-size:11px;color:#aaa">'+e.jk+' · Sem '+e.semester+'</span></td>'
+      +'<td style="font-size:12px;color:#666">'+e.kelas+'</td>'
+      +'<td><div style="display:flex;align-items:center;gap:8px"><div style="flex:1;height:8px;background:#eee;border-radius:4px;overflow:hidden"><div style="height:8px;background:#c0392b;border-radius:4px;width:'+bw+'%"></div></div><strong style="font-size:13px;min-width:28px">'+e.nilai+'</strong></div></td>'
+      +'<td style="font-size:12px;color:#1e8449">'+e.benar+'</td>'
+      +'<td>'+(e.cheat>0?'<span class="cheat-badge cheat-high">'+e.cheat+'x</span>':'<span style="font-size:12px;color:#27ae60">✓</span>')+'</td>'
+      +'<td style="font-size:12px;color:#888">'+Math.floor(e.dur/60)+'m '+e.dur%60+'d</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+function renderCheatLog(){
+  var cl=getCL();
+  if(cl.length===0){document.getElementById('cheat-empty').style.display='block';document.getElementById('cheat-table-wrap').style.display='none';return;}
+  document.getElementById('cheat-empty').style.display='none';
+  document.getElementById('cheat-table-wrap').style.display='block';
+  var tbody=document.getElementById('cheatTbody'); tbody.innerHTML='';
+  cl.forEach(function(e,i){
+    var tr=document.createElement('tr');
+    var bc=e.cheat>=3?'cheat-high':'cheat-low';
+    tr.innerHTML='<td>'+(i+1)+'</td><td><strong>'+e.nama+'</strong></td><td style="font-size:12px">'+e.kelas+'</td>'
+      +'<td><span class="cheat-badge '+bc+'">'+e.cheat+'x pelanggaran</span></td>'
+      +'<td><strong>'+e.nilai+'</strong></td>'
+      +'<td style="font-size:12px;color:#888">'+e.waktu+'</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+function clearCheatLog(){
+  if(confirm('Hapus semua log kecurangan?')){
+    localStorage.removeItem('cl_pancasila');
+    renderCheatLog();
+    document.getElementById('cheat-badge').style.display='none';
+  }
+}
+
+function buatExportData(b,s,k,n,dur){
+  var tgl=new Date().toLocaleDateString('id-ID');
+  var jam=new Date().toLocaleTimeString('id-ID');
+  var csv='Nama,NIM/NIS,Prodi/Kelas,JK,Semester,Nilai,Benar,Salah,Kosong,Pelanggaran,Durasi(dtk),Tanggal,Jam\n';
+  csv+='"'+peserta.nama+'","'+peserta.nis+'","'+peserta.kelas+'","'+peserta.jk+'","'+peserta.semester+'",'+n+','+b+','+s+','+k+','+cheatCount+','+dur+',"'+tgl+'","'+jam+'"';
+  document.getElementById('exportData').value=csv;
+}
+
+function buatAppsScript(){
+  document.getElementById('appsScriptCode').value='// Google Apps Script - Kuis Pancasila PNUP\n// Extensions > Apps Script > Tempel > Save > Run setupSheet()\n\nfunction setupSheet() {\n  var ss = SpreadsheetApp.getActiveSpreadsheet();\n  var sheet = ss.getSheetByName(\'Hasil Kuis\') || ss.insertSheet(\'Hasil Kuis\');\n  var header = [\'No\',\'Nama\',\'NIM/NIS\',\'Prodi/Kelas\',\'JK\',\'Semester\',\'Nilai\',\'Benar\',\'Salah\',\'Kosong\',\'Pelanggaran\',\'Durasi(dtk)\',\'Tanggal\',\'Jam\',\'Predikat\'];\n  sheet.getRange(1,1,1,header.length).setValues([header]).setBackground(\'#1a1208\').setFontColor(\'#d4a017\').setFontWeight(\'bold\');\n  sheet.setFrozenRows(1);\n  SpreadsheetApp.getUi().alert(\'Sheet siap!\');\n}\n\nfunction importDariCSV() {\n  var ui = SpreadsheetApp.getUi();\n  var r = ui.prompt(\'Tempel data CSV:\', ui.ButtonSet.OK_CANCEL);\n  if (r.getSelectedButton() !== ui.Button.OK) return;\n  var lines = r.getResponseText().trim().split(\'\\n\');\n  var cols = lines[lines.length>1?1:0].split(\',\').map(function(c){return c.replace(/^"|"$/g,\'\');});\n  var nilai = parseInt(cols[5])||0;\n  var predikat = nilai>=90?\'Sangat Baik\':nilai>=75?\'Baik\':nilai>=60?\'Cukup\':\'Perlu Belajar\';\n  var ss = SpreadsheetApp.getActiveSpreadsheet();\n  var sheet = ss.getSheetByName(\'Hasil Kuis\');\n  if(!sheet){setupSheet();sheet=ss.getSheetByName(\'Hasil Kuis\');}\n  var lr = sheet.getLastRow()+1;\n  sheet.getRange(lr,1,1,15).setValues([[lr-1,cols[0],cols[1],cols[2],cols[3],cols[4],nilai,cols[6],cols[7],cols[8],cols[9],cols[10],cols[11],cols[12],predikat]]);\n  var c=sheet.getRange(lr,7);\n  if(nilai>=75)c.setBackground(\'#d5f5e3\');else if(nilai>=60)c.setBackground(\'#fef9e7\');else c.setBackground(\'#fadbd8\');\n  ui.alert(\'Berhasil! Nilai: \'+nilai+\' — \'+predikat);\n}';
+}
+
+function copyExport(){var t=document.getElementById('exportData');t.select();document.execCommand('copy');alert('✓ Data CSV berhasil disalin!');}
+function copyScript(){var t=document.getElementById('appsScriptCode');t.select();document.execCommand('copy');alert('✓ Script berhasil disalin!');}
+function downloadCSV(){
+  var data=document.getElementById('exportData').value;
+  var blob=new Blob(['\uFEFF'+data],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download='hasil_kuis_'+peserta.nama.replace(/\s+/g,'_')+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+function switchTab(e,tab){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+  document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active')});
+  e.target.classList.add('active');
+  document.getElementById('tab_'+tab).classList.add('active');
+}
+
+function visibilityHandler(){
+  if(document.hidden&&document.getElementById('phaseKuis').style.display!=='none'){
+    cheatCount++;
+    document.getElementById('cheatMsg').textContent='Berpindah tab/jendela lain terdeteksi!';
+    document.getElementById('cheatCountMsg').textContent='Total pelanggaran: '+cheatCount+'x — tercatat dalam log';
+    document.getElementById('cheatModal').style.display='block';
+    document.getElementById('cheatOverlay').style.display='block';
+  }
+}
+function closeCheatModal(){
+  document.getElementById('cheatModal').style.display='none';
+  document.getElementById('cheatOverlay').style.display='none';
+}
+function setupAntiCheat(){
+  document.addEventListener('visibilitychange',visibilityHandler);
+  document.addEventListener('contextmenu',function(e){e.preventDefault();});
+  document.addEventListener('keydown',function(e){
+    var k=e.key.toLowerCase();
+    if((e.ctrlKey||e.metaKey)&&['c','v','u','a','f','s'].includes(k))e.preventDefault();
+    if(e.key==='F12')e.preventDefault();
+  });
+}
+
+updateDashStats();
+</script>
+</body>
+</html>
